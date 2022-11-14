@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from pathlib import Path
 
 URL = "https://github.com/justalemon/NativeGen"
 
@@ -19,6 +20,13 @@ def parse_arguments():
 
 def main():
     arguments = parse_arguments()
+
+    path = Path(arguments.output).absolute()
+
+    print(f"Saving Natives to {path}")
+    print(f"Using format {arguments.format} and natives {arguments.natives}")
+
+    return
 
 
 if __name__ == "__main__":
