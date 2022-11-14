@@ -12,7 +12,7 @@ def parse_arguments():
                         help="the output file")
     parser.add_argument("format", choices=["shvdn", "cfxlua"],
                         help="the format of the file")
-    parser.add_argument("--natives", choices=["gtav", "rdr2", "fivem"], nargs="*", default="gtav",
+    parser.add_argument("--natives", choices=["gtav", "rdr2", "fivem"], nargs="+", default=["gtav"],
                         help="the different sets of natives to add")
 
     return parser.parse_args()
