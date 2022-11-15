@@ -7,9 +7,11 @@ jobs:
   lint-and-compile:
     strategy:
       matrix:
-        os:
-          - windows-2022
-          - ubuntu-22.04
+        include:
+          - os: windows-2022
+            filename: Windows
+          - os: ubuntu-22.04
+            filename: Ubuntu
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -26,5 +28,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
-          name: CheckSongs-${{ matrix.os }}
+          name: CheckSongs-${{ matrix.filename }}
           path: dist\*
