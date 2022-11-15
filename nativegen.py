@@ -1,6 +1,7 @@
 import sys
 from argparse import ArgumentParser
 from pathlib import Path
+from typing import TextIO
 
 import requests
 
@@ -43,6 +44,42 @@ def fetch_natives(natives: list[str]):
     return result
 
 
+def write_header(file: TextIO, format: str):
+    if format == "shvdn":
+        file.write("namespace GTA.Native\n")
+        file.write("{\n")
+        file.write("    public enum Hash : ulong\n")
+        file.write("    {\n")
+
+
+def write_natives(file: TextIO, format: str, namespace: str, natives: dict):
+    if format == "shvdn":
+        file.write(f"        // {namespace}\n")
+
+    for nhash, data in natives.items():
+        name = data["name"]
+
+        if format == "shvdn":
+           file.write(f"        {name} = {nhash},\n")
+
+
+def write_footer(file: TextIO, format: str):
+    if format == "shvdn":
+        file.write("    }\n")
+        file.write("}\n")
+
+
+def write_natives_to(path: Path, format: str, all_natives: dict[str, dict]):
+    with open(path, "w", encoding="utf-8") as file:
+        write_header(file, format)
+
+        for game, namespaces in all_natives.items():
+            for namespace, natives in namespaces.items():
+                write_natives(file, format, namespace, natives)
+
+        write_footer(file, format)
+
+
 def main():
     arguments = parse_arguments()
 
@@ -52,6 +89,7 @@ def main():
     print(f"Using format {arguments.format} and natives {arguments.natives}")
 
     natives = fetch_natives(arguments.natives)
+    write_natives_to(path, arguments.format, natives)
 
     return
 
