@@ -9,9 +9,11 @@ jobs:
       matrix:
         include:
           - os: windows-2022
-            filename: Windows
+            name: Windows
+            filename: nativegen.exe
           - os: ubuntu-22.04
-            filename: Ubuntu
+            name: Ubuntu
+            filename: nativegen
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -28,5 +30,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
-          name: CheckSongs-${{ matrix.filename }}
-          path: dist\*
+          name: CheckSongs-${{ matrix.name }}
+          path: dist\${{ matrix.filename }}
+          if-no-files-found: error
