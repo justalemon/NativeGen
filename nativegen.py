@@ -12,6 +12,43 @@ NATIVES = {
     "rdr3": "https://raw.githubusercontent.com/alloc8or/rdr3-nativedb-data/master/natives.json",
     "fivem": "https://runtime.fivem.net/doc/natives_cfx.json"
 }
+LUA_EQUIVALENTS = {
+    "int": "number",
+    "const char*": "string",
+    "Any*": "any",
+    "Hash": "number",
+    "float": "number",
+    "Ped": "number",
+    "BOOL": "boolean",
+    "Any": "any",
+    "Entity": "number",
+    "Vehicle": "number",
+    "float*": "number",
+    "int*": "int",
+    "Object": "any",
+    "Cam": "number",
+    "Player": "number",
+    "BOOL*": "boolean",
+    "Vector3": "vector3",
+    "Vector3*": "vector3",
+    "ScrHandle*": "number",
+    "ScrHandle": "number",
+    "Entity*": "number",
+    "Ped*": "number",
+    "Vehicle*": "number",
+    "Object*": "number",
+    "Hash*": "number",
+    "FireId": "number",
+    "Blip": "number",
+    "Pickup": "number",
+    "Blip*": "number",
+    "Interior": "number",
+    "char*": "string",  # not sure
+    "func": "function",
+    "long": "number",
+    "bool": "boolean",
+    "object": "any"
+}
 
 
 def parse_arguments():
