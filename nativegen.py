@@ -19,7 +19,7 @@ def parse_arguments():
                             epilog=f"For more information, visit {URL}")
     parser.add_argument("output",
                         help="the output file")
-    parser.add_argument("format", choices=["shvdn", "cfxlua"],
+    parser.add_argument("format", choices=["shvdn", "cfxmono", "cfxlua"],
                         help="the format of the file")
     parser.add_argument("--natives", choices=list(NATIVES.keys()), nargs="+", default=["gtav"],
                         help="the different sets of natives to add")
@@ -47,24 +47,28 @@ def fetch_natives(natives: list[str]):
 def write_header(file: TextIO, format: str):
     if format == "shvdn":
         file.write("namespace GTA.Native\n")
+    elif format == "cfxmono":
+        file.write("namespace CitizenFX.Core.Native\n")
+
+    if format == "shvdn" or format == "cfxmono":
         file.write("{\n")
         file.write("    public enum Hash : ulong\n")
         file.write("    {\n")
 
 
 def write_natives(file: TextIO, format: str, namespace: str, natives: dict):
-    if format == "shvdn":
+    if format == "shvdn" or format == "cfxmono":
         file.write(f"        // {namespace}\n")
 
     for nhash, data in natives.items():
         name = data["name"]
 
-        if format == "shvdn":
+        if format == "shvdn" or format == "cfxmono":
            file.write(f"        {name} = {nhash},\n")
 
 
 def write_footer(file: TextIO, format: str):
-    if format == "shvdn":
+    if format == "shvdn" or format == "cfxmono":
         file.write("    }\n")
         file.write("}\n")
 
