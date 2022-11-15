@@ -10,10 +10,10 @@ jobs:
         include:
           - os: windows-2022
             name: Windows
-            filename: nativegen.exe
+            path: dist\nativegen.exe
           - os: ubuntu-22.04
             name: Ubuntu
-            filename: nativegen
+            path: ./dist/nativegen
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -31,5 +31,5 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
           name: CheckSongs-${{ matrix.name }}
-          path: dist\${{ matrix.filename }}
+          path: ${{ matrix.path }}
           if-no-files-found: error
