@@ -136,7 +136,13 @@ def write_natives(file: TextIO, format: str, namespace: str, natives: dict):
         comment = data.get("comment", None)
 
         if format == "shvdn" or format == "cfxmono":
-           file.write(f"        {name} = {nhash},\n")
+            if comment is not None:
+                file.write(f"        /// <summary>\n")
+                for line in comment.splitlines():
+                    file.write(f"        /// {line}\n")
+                file.write(f"        /// </summary>\n")
+
+            file.write(f"        {name} = {nhash},\n")
         elif format == "cfxlua":
             parameter_names = []
 
