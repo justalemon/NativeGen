@@ -49,6 +49,30 @@ LUA_EQUIVALENTS = {
     "bool": "boolean",
     "object": "any"
 }
+# From Lua Manual: 2.1 - Lexical Conventions
+LUA_KEYWORDS = [
+    "and",
+    "break",
+    "do",
+    "else",
+    "elseif",
+    "end",
+    "false",
+    "for",
+    "function",
+    "if",
+    "in",
+    "local",
+    "nil",
+    "not",
+    "or",
+    "repeat",
+    "return",
+    "then",
+    "true",
+    "until",
+    "while"
+]
 
 
 def parse_arguments():
