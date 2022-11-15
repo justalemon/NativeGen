@@ -76,8 +76,10 @@ def write_natives(file: TextIO, format: str, namespace: str, natives: dict):
         if format == "shvdn" or format == "cfxmono":
            file.write(f"        {name} = {nhash},\n")
         elif format == "cfxlua":
+            parameter_names = [x["name"] for x in data["params"]]
             name = format_lua_name(name)
-            file.write(f"function {name}() end\n\n")
+            parameters = ", ".join(parameter_names)
+            file.write(f"function {name}({parameters}) end\n\n")
 
 
 def write_footer(file: TextIO, format: str):
