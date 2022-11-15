@@ -1,3 +1,4 @@
+import string
 import sys
 from argparse import ArgumentParser
 from pathlib import Path
@@ -25,6 +26,10 @@ def parse_arguments():
                         help="the different sets of natives to add")
 
     return parser.parse_args()
+
+
+def format_lua_name(name: str):
+    return string.capwords(name.lower().replace("0x", "N_0x").replace("_", " ")).replace(" ", "")
 
 
 def fetch_natives(natives: list[str]):
