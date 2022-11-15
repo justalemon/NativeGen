@@ -85,6 +85,8 @@ def parse_arguments():
                         help="the format of the file")
     parser.add_argument("--natives", choices=list(NATIVES.keys()), nargs="+", default=["gtav"],
                         help="the different sets of natives to add")
+    parser.add_argument("--caller", action="store_true",
+                        help="if the functions should call the natives instead of being stubs")
 
     return parser.parse_args()
 
@@ -125,7 +127,7 @@ def write_header(file: TextIO, format: str):
         file.write("    {\n")
 
 
-def write_natives(file: TextIO, format: str, namespace: str, natives: dict):
+def write_natives(file: TextIO, format: str, caller: bool, namespace: str, natives: dict):
     if format == "shvdn" or format == "cfxmono":
         file.write(f"        // {namespace}\n")
     elif format == "cfxlua":
@@ -168,7 +170,14 @@ def write_natives(file: TextIO, format: str, namespace: str, natives: dict):
             name = format_lua_name(name)
             parameters = ", ".join(parameter_names)
 
-            file.write(f"function {name}({parameters}) end\n\n")
+            if caller:
+                file.write(f"function {name}({parameters})\n")
+                if parameters:
+                    parameters = f", {parameters}"
+                file.write(f"    return Citizen.Invoke({nhash}{parameters})\n")
+                file.write(f"end\n\n")
+            else:
+                file.write(f"function {name}({parameters}) end\n\n")
 
 
 def write_footer(file: TextIO, format: str):
@@ -180,13 +189,13 @@ def write_footer(file: TextIO, format: str):
         file.write("}\n")
 
 
-def write_natives_to(path: Path, format: str, all_natives: dict[str, dict]):
+def write_natives_to(path: Path, format: str, caller: bool, all_natives: dict[str, dict]):
     with open(path, "w", encoding="utf-8") as file:
         write_header(file, format)
 
         for game, namespaces in all_natives.items():
             for namespace, natives in namespaces.items():
-                write_natives(file, format, namespace, natives)
+                write_natives(file, format, caller, namespace, natives)
 
         write_footer(file, format)
 
@@ -200,7 +209,7 @@ def main():
     print(f"Using format {arguments.format} and natives {arguments.natives}")
 
     natives = fetch_natives(arguments.natives)
-    write_natives_to(path, arguments.format, natives)
+    write_natives_to(path, arguments.format, arguments.caller, natives)
 
     return
 
