@@ -50,6 +50,9 @@ def fetch_natives(natives: list[str]):
 
 
 def write_header(file: TextIO, format: str):
+    if format == "cfxlua":
+        return
+
     if format == "shvdn":
         file.write("namespace GTA.Native\n")
     elif format == "cfxmono":
@@ -64,15 +67,23 @@ def write_header(file: TextIO, format: str):
 def write_natives(file: TextIO, format: str, namespace: str, natives: dict):
     if format == "shvdn" or format == "cfxmono":
         file.write(f"        // {namespace}\n")
+    elif format == "cfxlua":
+        file.write(f"-- {namespace}\n\n")
 
     for nhash, data in natives.items():
         name = data["name"]
 
         if format == "shvdn" or format == "cfxmono":
            file.write(f"        {name} = {nhash},\n")
+        elif format == "cfxlua":
+            name = format_lua_name(name)
+            file.write(f"function {name}() end\n\n")
 
 
 def write_footer(file: TextIO, format: str):
+    if format == "cfxlua":
+        return
+
     if format == "shvdn" or format == "cfxmono":
         file.write("    }\n")
         file.write("}\n")
