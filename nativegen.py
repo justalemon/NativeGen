@@ -109,13 +109,35 @@ def write_natives(file: TextIO, format: str, namespace: str, natives: dict):
 
     for nhash, data in natives.items():
         name = data["name"]
+        comment = data.get("comment", None)
 
         if format == "shvdn" or format == "cfxmono":
            file.write(f"        {name} = {nhash},\n")
         elif format == "cfxlua":
-            parameter_names = [x["name"] for x in data["params"]]
+            parameter_names = []
+
+            if comment is not None:
+                for line in comment.splitlines():
+                    file.write(f"--- {line}\n")
+
+            for parameter in data["params"]:
+                param_name = parameter["name"]
+                param_desc = parameter.get("description", "")
+                param_type = LUA_EQUIVALENTS.get(parameter["type"], None) or parameter["type"]
+
+                if param_name in LUA_KEYWORDS:
+                    param_name = f"_{param_name}"
+
+                if param_name in parameter_names:
+                    param_name = f"{param_name}_{len(parameter_names)}"
+
+                file.write(f"--- @param {param_name} {param_type} {param_desc}\n")
+
+                parameter_names.append(param_name)
+
             name = format_lua_name(name)
             parameters = ", ".join(parameter_names)
+
             file.write(f"function {name}({parameters}) end\n\n")
 
 
