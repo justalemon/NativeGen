@@ -23,7 +23,7 @@ The minimal way to run NativeGen is
 
 Where the first parameter is the output file, and the second parameter is the format. You can see the different formats available by running the program with the `--help` parameter.
 
-[actions-img]: https://img.shields.io/github/workflow/status/justalemon/NativeGen/Compile%20Script?label=github%20actions
+[actions-img]: https://img.shields.io/github/actions/workflow/status/justalemon/NativeGen/main.yml?branch=master&label=actions
 [actions-url]: https://github.com/justalemon/NativeGen/actions
 [patreon-img]: https://img.shields.io/badge/support-patreon-FF424D.svg
 [patreon-url]: https://www.patreon.com/lemonchan
