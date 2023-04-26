@@ -1,5 +1,14 @@
 # NativeGen<br>[![GitHub Actions][actions-img]][actions-url] [![Patreon][patreon-img]][patreon-url] [![PayPal][paypal-img]][paypal-url] [![Discord][discord-img]][discord-url]
 
+> NOTICE: NativeGen has been deprecated and has been merged with [Collei](https://github.com/justalemon/Collei)
+> 
+> You can invoke Collei's native generator with similar parameters to NativeGen
+> ```
+> collei natives "OutputFile.cs" shvdn
+> ```
+> 
+> You can run `collei natives --help` to see the parameters that have been changed after the merge.
+
 NativeGen is a simple Python application for generating list of natives. It supports SHVDN 2 and 3 Enums, FiveM Mono Enums, Lua Stubs and Lua Caller functions.
 
 ## Download
